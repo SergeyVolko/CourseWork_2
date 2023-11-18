@@ -12,7 +12,6 @@ import java.util.stream.IntStream;
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
     private final static String TEMPLATE_EXCEPTION = "Количестов вопросов %d не корректно задано.";
-    private static final Random RANDOM = new Random();
     private final QuestionService service;
 
     @Autowired
