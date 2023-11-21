@@ -44,15 +44,22 @@ public class JavaQuestionService implements QuestionService {
     @Override
     public Question getRandomQuestion() {
         if (isChange || shuffleQuestion.isEmpty()) {
-            shuffleQuestion = IntStream.range(0, questions.size())
-                    .mapToObj(i -> questions.stream()
-                            .skip(i + RANDOM.nextInt(questions.size() - i))
-                            .findFirst()
-                            .get())
-                    .collect(Collectors.toCollection(LinkedList<Question>::new));
+            shuffleQuestion = new LinkedList<>();
+            Question[] questionsArr =  questions.toArray(new Question[0]);
+            shuffle(questionsArr);
+            shuffleQuestion.addAll(Arrays.asList(questionsArr));
             isChange = false;
         }
         return shuffleQuestion.pollFirst();
+    }
+
+    private void shuffle(Question[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            int index = i + RANDOM.nextInt(arr.length - i);
+            Question tmp = arr[i];
+            arr[i] = arr[index];
+            arr[index] = tmp;
+        }
     }
 
     @Override
