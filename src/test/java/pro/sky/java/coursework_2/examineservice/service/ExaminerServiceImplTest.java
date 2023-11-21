@@ -6,9 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.coursework_2.examineservice.exceptions.AmountMoreSizeQuestionsException;
-
-import java.util.stream.IntStream;
-
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static pro.sky.java.coursework_2.examineservice.service.constants.ConstantsQuestionService.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -22,14 +20,27 @@ class ExaminerServiceImplTest {
 
     @Test
     public void whenCountsThenUniq() {
-        when(service.getAll()).thenReturn(QUESTIONS_ALL);
-        IntStream.rangeClosed(0, AMOUNT).forEach((i) ->
-                assertEquals(i, examinerService.getQuestions(i).size()));
+        when(service.size()).thenReturn(AMOUNT);
+        when(service.getRandomQuestion()).thenReturn(
+                QUESTION_OBJ1,
+                QUESTION_OBJ2,
+                QUESTION_OBJ3,
+                QUESTION_OBJ4,
+                QUESTION_OBJ5,
+                QUESTION_OBJ1,
+                QUESTION_OBJ2,
+                QUESTION_OBJ6,
+                QUESTION_OBJ7,
+                QUESTION_OBJ8,
+                QUESTION_OBJ9,
+                QUESTION_OBJ10
+        );
+        assertThat(examinerService.getQuestions(AMOUNT)).containsExactlyInAnyOrderElementsOf(QUESTIONS_ALL);
     }
-
     @Test
-    public void whenCountsThenUniqException() {
-        when(service.getAll()).thenReturn(QUESTIONS_ALL);
-        assertThrows(AmountMoreSizeQuestionsException.class, () -> examinerService.getQuestions(WRONG_AMOUNT));
+    public void whenWrongAmountThenException() {
+        when(service.size()).thenReturn(SIZE_QUESTION);
+        assertThrows(AmountMoreSizeQuestionsException.class,
+                () -> examinerService.getQuestions(WRONG_AMOUNT));
     }
 }

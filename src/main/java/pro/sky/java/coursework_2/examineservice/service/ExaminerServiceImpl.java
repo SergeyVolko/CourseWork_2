@@ -21,14 +21,17 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        QuestionService tmpService = new JavaQuestionService();
-        Collection<Question> questions = service.getAll();
-        questions.forEach(tmpService::add);
-        if (amount < 0 || questions.size() < amount) {
+        if (amount > service.size()) {
             throw new AmountMoreSizeQuestionsException(String.format(TEMPLATE_EXCEPTION, amount));
         }
         Set<Question> result = new HashSet<>();
-        IntStream.range(0, amount).forEach(i -> result.add(tmpService.remove(tmpService.getRandomQuestion())));
+        IntStream.range(0, amount).forEach(i -> {
+            Question question = service.getRandomQuestion();
+            while (result.contains(question)) {
+                question = service.getRandomQuestion();
+            }
+            result.add(question);
+        });
         return result;
     }
 }

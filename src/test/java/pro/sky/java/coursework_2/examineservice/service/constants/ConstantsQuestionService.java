@@ -7,6 +7,8 @@ import java.util.Set;
 public class ConstantsQuestionService {
     public static final int AMOUNT = 10;
     public static final int WRONG_AMOUNT = 11;
+    public static final int AMOUNT_FOR_GET_RANDOM_QUESTION = 100;
+    public static final int SIZE_QUESTION = 10;
     public static final String QUESTION1 = "question1";
     public static final String QUESTION2 = "question2";
     public static final String QUESTION3 = "question3";
@@ -17,6 +19,7 @@ public class ConstantsQuestionService {
     public static final String QUESTION8 = "question8";
     public static final String QUESTION9 = "question9";
     public static final String QUESTION10 = "question10";
+    public static final String ADD_QUESTION = "add question";
 
     public static final String ANSWER1 = "answer1";
     public static final String ANSWER2 = "answer2";
@@ -28,6 +31,8 @@ public class ConstantsQuestionService {
     public static final String ANSWER8 = "answer8";
     public static final String ANSWER9 = "answer9";
     public static final String ANSWER10 = "answer10";
+
+    public static final String ADD_ANSWER = "answer add";
     public static final Question QUESTION_OBJ1 = new Question(QUESTION1, ANSWER1);
     public static final Question QUESTION_OBJ2 = new Question(QUESTION2, ANSWER2);
     public static final Question QUESTION_OBJ3 = new Question(QUESTION3, ANSWER3);
@@ -38,6 +43,8 @@ public class ConstantsQuestionService {
     public static final Question QUESTION_OBJ8 = new Question(QUESTION8, ANSWER8);
     public static final Question QUESTION_OBJ9 = new Question(QUESTION9, ANSWER9);
     public static final Question QUESTION_OBJ10 = new Question(QUESTION10, ANSWER10);
+
+    public static final Question ADD_QUESTION_OBJ = new Question(ADD_QUESTION, ADD_ANSWER);
 
     public static final Collection<Question> QUESTIONS_ALL = Set.of(
             QUESTION_OBJ1,
@@ -62,5 +69,19 @@ public class ConstantsQuestionService {
             QUESTION_OBJ8,
             QUESTION_OBJ9,
             QUESTION_OBJ10
+    );
+
+    public static final Collection<Question> QUESTIONS_ALL_WITH_ADD = Set.of(
+            QUESTION_OBJ1,
+            QUESTION_OBJ2,
+            QUESTION_OBJ3,
+            QUESTION_OBJ4,
+            QUESTION_OBJ5,
+            QUESTION_OBJ6,
+            QUESTION_OBJ7,
+            QUESTION_OBJ8,
+            QUESTION_OBJ9,
+            QUESTION_OBJ10,
+            ADD_QUESTION_OBJ
     );
 }
