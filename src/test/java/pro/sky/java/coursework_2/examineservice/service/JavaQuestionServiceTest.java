@@ -50,4 +50,12 @@ class JavaQuestionServiceTest {
                 .collect(Collectors.toSet());
         assertThat(set).containsExactlyInAnyOrderElementsOf(QUESTIONS_ALL);
     }
+
+    @Test
+    public void whenGetRandomQuestionThenEqualsSetAmount() {
+        Set<Question> set = IntStream.range(0, AMOUNT)
+                .mapToObj(i -> questionService.getRandomQuestion())
+                .collect(Collectors.toSet());
+        assertThat(set).containsExactlyInAnyOrderElementsOf(QUESTIONS_ALL);
+    }
 }
