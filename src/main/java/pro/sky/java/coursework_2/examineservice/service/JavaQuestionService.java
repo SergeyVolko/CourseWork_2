@@ -50,6 +50,7 @@ public class JavaQuestionService implements QuestionService {
                             .findFirst()
                             .get())
                     .collect(Collectors.toCollection(LinkedList<Question>::new));
+            isChange = false;
         }
         return shuffleQuestion.pollFirst();
     }
