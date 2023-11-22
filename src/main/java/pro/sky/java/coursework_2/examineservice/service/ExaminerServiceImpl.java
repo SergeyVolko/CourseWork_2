@@ -1,0 +1,37 @@
+package pro.sky.java.coursework_2.examineservice.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pro.sky.java.coursework_2.examineservice.domain.Question;
+import pro.sky.java.coursework_2.examineservice.exceptions.AmountMoreSizeQuestionsException;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+@Service
+public class ExaminerServiceImpl implements ExaminerService {
+    private final static String TEMPLATE_EXCEPTION = "Количестов вопросов %d не корректно задано.";
+    private final QuestionService service;
+
+    @Autowired
+    public ExaminerServiceImpl(QuestionService service) {
+        this.service = service;
+    }
+
+    @Override
+    public Collection<Question> getQuestions(int amount) {
+        if (amount > service.size()) {
+            throw new AmountMoreSizeQuestionsException(String.format(TEMPLATE_EXCEPTION, amount));
+        }
+        Set<Question> result = new HashSet<>();
+        IntStream.range(0, amount).forEach(i -> {
+            Question question = service.getRandomQuestion();
+            while (result.contains(question)) {
+                question = service.getRandomQuestion();
+            }
+            result.add(question);
+        });
+        return result;
+    }
+}
