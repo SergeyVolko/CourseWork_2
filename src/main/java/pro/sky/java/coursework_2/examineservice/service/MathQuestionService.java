@@ -9,14 +9,14 @@ import java.util.*;
 import static pro.sky.java.coursework_2.examineservice.constants.ConstantsQuestionService.SHUFFLE_ARRAY;
 
 @Service
-public class JavaQuestionService implements QuestionService {
+public class MathQuestionService implements QuestionService {
     private static final Random RANDOM = new Random();
     private final QuestionRepository repository;
     private Deque<Question> shuffleQuestion = new LinkedList<>();
     private boolean isChange = false;
 
     @Autowired
-    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository repository) {
+    public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository repository) {
         this.repository = repository;
     }
 
