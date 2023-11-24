@@ -1,10 +1,11 @@
 package pro.sky.java.coursework_2.examineservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pro.sky.java.coursework_2.examineservice.domain.Question;
 import pro.sky.java.coursework_2.examineservice.exceptions.AmountMoreSizeQuestionsException;
+import pro.sky.java.coursework_2.examineservice.utils.UtilsForServiceRandom;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import static pro.sky.java.coursework_2.examineservice.constants.ConstantsQuestionService.SHUFFLE_ARRAY;
@@ -12,19 +13,16 @@ import static pro.sky.java.coursework_2.examineservice.constants.ConstantsQuesti
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
     private final static String TEMPLATE_EXCEPTION = "Количестов вопросов %d не корректно задано.";
-    private final QuestionService javaService;
-    private final QuestionService mathService;
+    private final List<QuestionService> services;
 
     @Autowired
-    public ExaminerServiceImpl(@Qualifier("javaQuestionService") QuestionService javaService,
-                               @Qualifier("mathQuestionService") QuestionService mathService) {
-        this.javaService = javaService;
-        this.mathService = mathService;
+    public ExaminerServiceImpl(List<QuestionService> services) {
+        this.services = services;
     }
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        List<QuestionService> services = List.of(javaService, mathService);
+        UtilsForServiceRandom.setSize(amount / services.size());
         Question[] result = services.stream().
                 flatMap(s -> Arrays.stream(getQuestionsInService(s))).
                 toArray(Question[]::new);

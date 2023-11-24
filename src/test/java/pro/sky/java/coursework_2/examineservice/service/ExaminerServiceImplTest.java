@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.coursework_2.examineservice.exceptions.AmountMoreSizeQuestionsException;
+import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static pro.sky.java.coursework_2.examineservice.service.constants.ConstantsQuestionService.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +22,7 @@ class ExaminerServiceImplTest {
 
     @BeforeEach
     public void initMock() {
-        examinerService = new ExaminerServiceImpl(javaService, mathService);
+        examinerService = new ExaminerServiceImpl(List.of(javaService, mathService));
     }
 
     @Test
