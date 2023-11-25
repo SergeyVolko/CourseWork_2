@@ -6,11 +6,12 @@ import pro.sky.java.coursework_2.examineservice.exceptions.MethodNotAllowedExcep
 import pro.sky.java.coursework_2.examineservice.utils.UtilsForServiceRandom;
 import java.util.*;
 import java.util.stream.IntStream;
+
+import static pro.sky.java.coursework_2.examineservice.constants.ConstantsQuestionService.RANDOM;
 import static pro.sky.java.coursework_2.examineservice.constants.ConstantsQuestionService.SHUFFLE_ARRAY;
 
 @Service
 public class MathQuestionService implements QuestionService {
-    private final Deque<Question> shuffleQuestion = new LinkedList<>();
     private static final String MATH_QUESTION = "math question%d";
     private static final String MATH_ANSWER = "math answer%d";
     @Override
@@ -35,14 +36,9 @@ public class MathQuestionService implements QuestionService {
 
     @Override
     public Question getRandomQuestion() {
-        if (shuffleQuestion.isEmpty()) {
-            Question[] questions = IntStream.rangeClosed(1, size())
-                    .mapToObj(i -> new Question(String.format(MATH_QUESTION, i), String.format(MATH_ANSWER, i)))
-                    .toArray(Question[]::new);
-            SHUFFLE_ARRAY.accept(questions);
-            shuffleQuestion.addAll(Arrays.asList(questions));
-        }
-        return shuffleQuestion.pollFirst();
+        String question = String.format(MATH_QUESTION, RANDOM.nextInt(Integer.MAX_VALUE));
+        String answer = String.format(MATH_ANSWER, RANDOM.nextInt(Integer.MAX_VALUE));
+        return new Question(question, answer);
     }
 
     @Override
