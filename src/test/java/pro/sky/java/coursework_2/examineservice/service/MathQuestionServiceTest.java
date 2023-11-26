@@ -1,24 +1,23 @@
 package pro.sky.java.coursework_2.examineservice.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pro.sky.java.coursework_2.examineservice.domain.Question;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.coursework_2.examineservice.exceptions.MethodNotAllowedException;
-import pro.sky.java.coursework_2.examineservice.utils.UtilsForServiceRandom;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static pro.sky.java.coursework_2.examineservice.service.constants.ConstantsQuestionService.*;
 
+@ExtendWith(MockitoExtension.class)
 class MathQuestionServiceTest {
-    MathQuestionService service = new MathQuestionService();
-
-    @BeforeEach
-    public void initSize() {
-        UtilsForServiceRandom.setSize(AMOUNT);
-    }
+    @Mock
+    Function<Integer, Integer> generatorNums;
+    @InjectMocks
+    MathQuestionService service;
 
     @Test
     public void whenAddElementThenEqualsExpectElement() {
@@ -40,18 +39,26 @@ class MathQuestionServiceTest {
     }
 
     @Test
-    public void whenGetRandomQuestionThenEqualsSet() {
-        Set<Question> set = IntStream.range(0, AMOUNT_FOR_GET_RANDOM_QUESTION)
-                .mapToObj(i -> service.getRandomQuestion())
-                .collect(Collectors.toSet());
-        assertThat(set).containsExactlyInAnyOrderElementsOf(MATH_QUESTIONS_ALL);
+    public void whenGetRandomQuestionWhenAddAction() {
+        when(generatorNums.apply(any())).thenReturn(ONE, TWO, ACTION_NUM1);
+        assertEquals(ARITHMETIC_QUESTION_ADD_OBJ, service.getRandomQuestion());
     }
 
     @Test
-    public void whenGetRandomQuestionThenEqualsSetAmount() {
-        Set<Question> set = IntStream.range(0, AMOUNT)
-                .mapToObj(i -> service.getRandomQuestion())
-                .collect(Collectors.toSet());
-        assertThat(set).containsExactlyInAnyOrderElementsOf(MATH_QUESTIONS_ALL);
+    public void whenGetRandomQuestionWhenDefAction() {
+        when(generatorNums.apply(any())).thenReturn(SIX, FOUR, ACTION_NUM2);
+        assertEquals(ARITHMETIC_QUESTION_DEF_OBJ, service.getRandomQuestion());
+    }
+
+    @Test
+    public void whenGetRandomQuestionWhenMultipleAction() {
+        when(generatorNums.apply(any())).thenReturn(TWO, THREE, ACTION_NUM3);
+        assertEquals(ARITHMETIC_QUESTION_MULTIPLE_OBJ, service.getRandomQuestion());
+    }
+
+    @Test
+    public void whenGetRandomQuestionWhenDivAction() {
+        when(generatorNums.apply(any())).thenReturn(TEN, TWO, ACTION_NUM4);
+        assertEquals(ARITHMETIC_QUESTION_DIV_OBJ, service.getRandomQuestion());
     }
 }

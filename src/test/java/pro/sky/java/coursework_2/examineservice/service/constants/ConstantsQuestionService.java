@@ -2,13 +2,13 @@ package pro.sky.java.coursework_2.examineservice.service.constants;
 
 import pro.sky.java.coursework_2.examineservice.domain.Question;
 import java.util.Collection;
+import java.util.Random;
 import java.util.Set;
 
 public class ConstantsQuestionService {
     public static final int AMOUNT = 10;
     public static final int WRONG_AMOUNT = 11;
     public static final int AMOUNT_FOR_GET_RANDOM_QUESTION = 100;
-    public static final int SIZE_QUESTION = 10;
     public static final String QUESTION1 = "question1";
     public static final String QUESTION2 = "question2";
     public static final String QUESTION3 = "question3";
@@ -181,5 +181,41 @@ public class ConstantsQuestionService {
             MATH_QUESTION_OBJ8,
             MATH_QUESTION_OBJ9,
             MATH_QUESTION_OBJ10
+    );
+
+    public static final int ACTION_NUM1 = 0;
+    public static final int ACTION_NUM2 = 1;
+    public static final int ACTION_NUM3 = 2;
+    public static final int ACTION_NUM4 = 3;
+    public static final int ONE = 1;
+    public static final int TWO = 2;
+    public static final int SIX = 6;
+    public static final int THREE = 3;
+    public static final int FOUR = 4;
+    public static final int TEN = 10;
+    public static final String ARITHMETIC_QUESTION_ADD = "1 + 2 = ?";
+    public static final String ARITHMETIC_QUESTION_DEF = "6 - 4 = ?";
+    public static final String ARITHMETIC_QUESTION_MULTIPLE = "2 * 3 = ?";
+    public static final String ARITHMETIC_QUESTION_DIV = "10 / 2 = ?";
+
+    public static final String ARITHMETIC_ANSWER_ADD = "math answer: 3";
+    public static final String ARITHMETIC_ANSWER_DEF = "math answer: 2";
+    public static final String ARITHMETIC_ANSWER_MULTIPLE = "math answer: 6";
+    public static final String ARITHMETIC_ANSWER_DIV = "math answer: 5";
+
+    public static final Question ARITHMETIC_QUESTION_ADD_OBJ =
+            new Question(ARITHMETIC_QUESTION_ADD, ARITHMETIC_ANSWER_ADD);
+    public static final Question ARITHMETIC_QUESTION_DEF_OBJ =
+            new Question(ARITHMETIC_QUESTION_DEF, ARITHMETIC_ANSWER_DEF);
+    public static final Question ARITHMETIC_QUESTION_MULTIPLE_OBJ =
+            new Question(ARITHMETIC_QUESTION_MULTIPLE, ARITHMETIC_ANSWER_MULTIPLE);
+    public static final Question ARITHMETIC_QUESTION_DIV_OBJ =
+            new Question(ARITHMETIC_QUESTION_DIV, ARITHMETIC_ANSWER_DIV);
+
+    public static final Collection<Question> MATH_ARITHMETIC_QUESTIONS = Set.of(
+            ARITHMETIC_QUESTION_ADD_OBJ,
+            ARITHMETIC_QUESTION_DEF_OBJ,
+            ARITHMETIC_QUESTION_MULTIPLE_OBJ,
+            ARITHMETIC_QUESTION_DIV_OBJ
     );
 }
