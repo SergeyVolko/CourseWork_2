@@ -67,6 +67,6 @@ public class MathQuestionService implements QuestionService {
 
     @Override
     public int size() {
-        return UtilsForServiceRandom.getSize();
+        throw new MethodNotAllowedException();
     }
 }

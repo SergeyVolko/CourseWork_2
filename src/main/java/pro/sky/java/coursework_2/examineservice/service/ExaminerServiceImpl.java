@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.java.coursework_2.examineservice.domain.Question;
 import pro.sky.java.coursework_2.examineservice.exceptions.AmountMoreSizeQuestionsException;
+import pro.sky.java.coursework_2.examineservice.exceptions.MethodNotAllowedException;
 import pro.sky.java.coursework_2.examineservice.utils.UtilsForServiceRandom;
 
 import java.util.*;
@@ -35,7 +36,12 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     private Question[] getQuestionsInService(QuestionService service) {
         Set<Question> questions = new HashSet<>();
-        int size = service.size();
+        int size = 0;
+        try {
+            size = service.size();
+        } catch (MethodNotAllowedException e) {
+            size = UtilsForServiceRandom.getSize();
+        }
         while (questions.size() != size) {
             Question question = service.getRandomQuestion();
             while (questions.contains(question)) {
