@@ -5,12 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pro.sky.java.coursework_2.examineservice.domain.Question;
-import pro.sky.java.coursework_2.examineservice.repository.MathQuestionRepository;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import pro.sky.java.coursework_2.examineservice.exceptions.MethodNotAllowedException;
+import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -18,51 +14,51 @@ import static pro.sky.java.coursework_2.examineservice.service.constants.Constan
 
 @ExtendWith(MockitoExtension.class)
 class MathQuestionServiceTest {
-
     @Mock
-    MathQuestionRepository repository;
-
+    Function<Integer, Integer> generatorNums;
     @InjectMocks
     MathQuestionService service;
 
     @Test
     public void whenAddElementThenEqualsExpectElement() {
-        when(repository.add(any())).thenReturn(MATH_QUESTION_OBJ1);
-        assertEquals(MATH_QUESTION_OBJ1, service.add(MATH_QUESTION1, MATH_ANSWER1));
+        assertThrows(MethodNotAllowedException.class, () -> service.add(MATH_QUESTION1, MATH_ANSWER1));
     }
     @Test
     public void whenAddElementQuestionThenEqualsExpectElement() {
-        when(repository.add(any())).thenReturn(MATH_QUESTION_OBJ1);
-        assertEquals(MATH_QUESTION_OBJ1, service.add(MATH_QUESTION_OBJ1));
+        assertThrows(MethodNotAllowedException.class, () -> service.add(QUESTION_OBJ1));
     }
 
     @Test
     public void whenRemoveOneQuestionThenEqualsExpectElement() {
-        when(repository.remove(any())).thenReturn(MATH_QUESTION_OBJ1);
-        assertEquals(MATH_QUESTION_OBJ1, service.remove(MATH_QUESTION_OBJ1));
+        assertThrows(MethodNotAllowedException.class, () -> service.remove(QUESTION_OBJ1));
     }
 
     @Test
     public void whenGetRandomQuestionThenContainInSet() {
-        when(repository.getAll()).thenReturn(MATH_QUESTIONS_ALL);
-        assertTrue(MATH_QUESTIONS_ALL.contains(service.getRandomQuestion()));
+        assertThrows(MethodNotAllowedException.class, () -> service.getAll());
     }
 
     @Test
-    public void whenGetRandomQuestionThenEqualsSet() {
-        when(repository.getAll()).thenReturn(MATH_QUESTIONS_ALL);
-        Set<Question> set = IntStream.range(0, AMOUNT_FOR_GET_RANDOM_QUESTION)
-                .mapToObj(i -> service.getRandomQuestion())
-                .collect(Collectors.toSet());
-        assertThat(set).containsExactlyInAnyOrderElementsOf(MATH_QUESTIONS_ALL);
+    public void whenGetRandomQuestionWhenAddAction() {
+        when(generatorNums.apply(any())).thenReturn(ONE, TWO, ACTION_NUM1);
+        assertEquals(ARITHMETIC_QUESTION_ADD_OBJ, service.getRandomQuestion());
     }
 
     @Test
-    public void whenGetRandomQuestionThenEqualsSetAmount() {
-        when(repository.getAll()).thenReturn(MATH_QUESTIONS_ALL);
-        Set<Question> set = IntStream.range(0, AMOUNT)
-                .mapToObj(i -> service.getRandomQuestion())
-                .collect(Collectors.toSet());
-        assertThat(set).containsExactlyInAnyOrderElementsOf(MATH_QUESTIONS_ALL);
+    public void whenGetRandomQuestionWhenDefAction() {
+        when(generatorNums.apply(any())).thenReturn(SIX, FOUR, ACTION_NUM2);
+        assertEquals(ARITHMETIC_QUESTION_DEF_OBJ, service.getRandomQuestion());
+    }
+
+    @Test
+    public void whenGetRandomQuestionWhenMultipleAction() {
+        when(generatorNums.apply(any())).thenReturn(TWO, THREE, ACTION_NUM3);
+        assertEquals(ARITHMETIC_QUESTION_MULTIPLE_OBJ, service.getRandomQuestion());
+    }
+
+    @Test
+    public void whenGetRandomQuestionWhenDivAction() {
+        when(generatorNums.apply(any())).thenReturn(TEN, TWO, ACTION_NUM4);
+        assertEquals(ARITHMETIC_QUESTION_DIV_OBJ, service.getRandomQuestion());
     }
 }

@@ -7,10 +7,11 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class ConstantsQuestionService {
+
+    public static final Random RANDOM = new Random();
     public static final Consumer<Question[]> SHUFFLE_ARRAY = (array -> {
-        Random random = new Random();
         for (int i = 0; i < array.length; i++) {
-            int index = i + random.nextInt(array.length - i);
+            int index = i + RANDOM.nextInt(array.length - i);
             Question tmp = array[i];
             array[i] = array[index];
             array[index] = tmp;
